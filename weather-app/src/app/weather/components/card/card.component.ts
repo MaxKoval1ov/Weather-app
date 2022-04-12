@@ -1,18 +1,18 @@
 import { Component, Input } from '@angular/core';
+import { WeatherInfo } from 'src/app/models/weather.model';
 
 @Component({
   selector: 'app-search-item',
-  templateUrl: './search-item.component.html',
-  styleUrls: ['./search-item.component.scss'],
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.scss'],
 })
-export class SearchItemComponent {
+export class WeatherCard {
   isLiked = false;
 
   @Input()
-    item!: ResultItem;
+    item!: WeatherInfo;
 
   toggleLike(): void {
     this.isLiked = !this.isLiked;
-    this.item.likes++;
   }
 }

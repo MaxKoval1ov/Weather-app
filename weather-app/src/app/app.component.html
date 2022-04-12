@@ -1,3 +1,11 @@
-<app-header></app-header>
+<app-header (open)="modal = true"></app-header>
 <app-modal *ngIf="modal" (close)="modal = false" [alreadyAdded]='cities'></app-modal>
+<main class = "main">
+    <app-sort></app-sort>
+    <div class="cards-container">
+        <ng-container *ngIf="cities">
+            
+        </ng-container>
+    </div>
+</main>
 <app-footer></app-footer>

@@ -36,8 +36,6 @@ export class ModalComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value))
     );
-
-    console.log(this.alreadyAdded);
   }
 
   private _filter(value: string): string[] {
