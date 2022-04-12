@@ -1,0 +1,13 @@
+Sort by:
+<mat-button-toggle-group name="fontStyle" aria-label="Font Style" (change)="handleChange($event.value)">
+    <mat-button-toggle value="comments">Comm</mat-button-toggle>
+    <mat-button-toggle value="views">Views</mat-button-toggle>
+    <mat-button-toggle value="likes">Likes</mat-button-toggle>
+    <mat-button-toggle value="dislikes">Dislikes</mat-button-toggle>
+  </mat-button-toggle-group>
+
+Sort by name:
+    <mat-form-field >
+      <mat-label>Name</mat-label>
+      <input matInput>
+    </mat-form-field>
