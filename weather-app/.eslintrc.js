@@ -15,4 +15,9 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
   },
+  rules:{
+    "comma-dangle": "off",
+      "@typescript-eslint/comma-dangle": "off"
+
+  }
 };

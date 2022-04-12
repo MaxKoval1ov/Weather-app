@@ -1,1 +1,3 @@
-<app-modal *ngIf="modal" (close)="modal = false"></app-modal>
+<app-header></app-header>
+<app-modal *ngIf="modal" (close)="modal = false" [alreadyAdded]='cities'></app-modal>
+<app-footer></app-footer>

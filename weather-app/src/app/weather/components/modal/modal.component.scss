@@ -14,4 +14,19 @@
     position: absolute;
     left: 50%;
     transform:  translate(-50%, 0);
+    width: 70%;
+}
+
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.close-btn{
+    cursor: pointer;
+}
+
+.model-btns-container{
+    display: flex;
+    justify-content: end;
 }
