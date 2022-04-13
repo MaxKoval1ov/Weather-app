@@ -5,15 +5,15 @@
     <mat-card-content class = "card-content" class="full-width">
         <div class="row">
             <div class="col">
-                <img class="card-image" mat-card-lg-image src={{item.image.urls.small}}>
+                <img mat-card-sm-image src={{item.image.urls.small}}>
             </div>
         </div>
-        <!-- <div class="card-stats">
+        <div class="card-stats">
             <span class = 'card-stat'>
-                <mat-icon>remove_red_eye</mat-icon>
-                {{item.views}}
+                <fa-icon [icon]="icon"></fa-icon>
+                {{item.info.weather[0].description}}
             </span>
-            <span class = 'card-stat'>
+            <!-- <span class = 'card-stat'>
                 <mat-icon>thumb_up</mat-icon>
                 {{item.likes}}
             </span>
@@ -24,9 +24,9 @@
             <span class = 'card-stat'>
                 <mat-icon>comments</mat-icon>
                 {{item.comments}}
-            </span>
+            </span> -->
             
-        </div> -->
+        </div>
     </mat-card-content>
     <mat-card-subtitle>
         Subs

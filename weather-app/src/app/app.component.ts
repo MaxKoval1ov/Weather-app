@@ -1,8 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { filter, forkJoin, from, map, mergeMap, reduce, switchMap, toArray } from 'rxjs';
-import { WeatherCardInfo } from './models/card.model';
-import { ImageService } from './services/image.service';
+import { from, map, mergeMap, toArray } from 'rxjs';
 
+import { ImageService } from './services/image.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { WeaterService } from './services/weather.service';
 

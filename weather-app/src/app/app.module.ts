@@ -19,6 +19,7 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
 import { WeatherModule } from './weather/weather.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
+import { IconDirective } from './directives/icon.directive';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
+    IconDirective,
   ],
   imports: [
     BrowserModule,
