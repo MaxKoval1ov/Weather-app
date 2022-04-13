@@ -8,13 +8,13 @@ import { IImage } from '../models/image.model';
 })
 export class ImageService {
   // https://api.unsplash.com/photos/random?orientation=landscape&query=${this.theme}&client_id=${key}
-  apiKey = '0u1ob4yEYnpvNQTzvT6fq7FTHH6u_k8c8bA2PyS_72c';
+  private apiKey = '0u1ob4yEYnpvNQTzvT6fq7FTHH6u_k8c8bA2PyS_72c';
 
   constructor(private http: HttpClient) {}
 
   getImageUrl(name: string): Observable<IImage> {
     return this.http.get<IImage>(
-      `https://api.unsplash.com/photos/random?orientation=landscape&query=${name}&client_id=${this.apiKey}}`,
+      `https://api.unsplash.com/photos/random?orientation=landscape&query=${name}&client_id=${this.apiKey}`,
     );
   }
 }

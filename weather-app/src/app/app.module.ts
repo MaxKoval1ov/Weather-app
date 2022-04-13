@@ -17,6 +17,8 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { WeatherModule } from './weather/weather.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { WeatherModule } from './weather/weather.module';
     MatRadioModule,
     MatCardModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

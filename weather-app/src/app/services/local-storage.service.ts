@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LocalStorageService {
-  getItem(key: string) {
+  getItem(key: string): string[] {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : null;
   }

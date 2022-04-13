@@ -1,14 +1,14 @@
-<mat-card class="item-card">
+<mat-card class="card">
     <mat-card-title-group>
-        <mat-card-title>{{item.name}}</mat-card-title>
+        <mat-card-title>{{item.info.name}}</mat-card-title>
     </mat-card-title-group>
     <mat-card-content class = "card-content" class="full-width">
         <div class="row">
             <div class="col">
-                <img class="card-image" mat-card-lg-image src={{item.image}}>
+                <img class="card-image" mat-card-lg-image src={{item.image.urls.small}}>
             </div>
         </div>
-        <div class="card-stats">
+        <!-- <div class="card-stats">
             <span class = 'card-stat'>
                 <mat-icon>remove_red_eye</mat-icon>
                 {{item.views}}
@@ -26,7 +26,7 @@
                 {{item.comments}}
             </span>
             
-        </div>
+        </div> -->
     </mat-card-content>
     <mat-card-subtitle>
         Subs

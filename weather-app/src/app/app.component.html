@@ -4,7 +4,7 @@
     <app-sort></app-sort>
     <div class="cards-container">
         <ng-container *ngIf="cities">
-            
+            <app-weather-card *ngFor="let city of cities$|async" [item]="city"></app-weather-card>
         </ng-container>
     </div>
 </main>
