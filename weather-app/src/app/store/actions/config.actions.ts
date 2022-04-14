@@ -1,14 +1,10 @@
 import { createAction } from '@ngrx/store';
 
 export enum ConfigActions {
-  GetConfig = '[Config] Get Config',
-  GetConfigSuccess = '[Config] Get Config Success',
-  GetConfigFail = '[Config] Get Config Fail',
+  goOnline = '[Config] Online',
+  goOffline = '[Config] Offline',
 }
 
-export const getConfig = createAction(ConfigActions.GetConfig);
+export const goOnline = createAction(ConfigActions.goOnline);
 
-export const getSuccess = createAction(ConfigActions.GetConfigSuccess);
-
-export const getFail = createAction(ConfigActions.GetConfigFail);
-
+export const goOffline = createAction(ConfigActions.goOffline);

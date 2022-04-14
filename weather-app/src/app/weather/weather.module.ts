@@ -11,7 +11,12 @@ import { WeatherComponent } from './components/weather/weather.component';
 
 @NgModule({
   declarations: [ModalComponent, SortComponent, WeatherCard, WeatherComponent],
-  imports: [CommonModule, UiModule, ReactiveFormsModule, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    UiModule,
+    ReactiveFormsModule,
+    FontAwesomeModule,
+  ],
   exports: [ModalComponent, SortComponent, WeatherCard],
 })
 export class WeatherModule {}

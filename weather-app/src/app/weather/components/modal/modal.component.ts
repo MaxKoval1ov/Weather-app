@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
 import { map, Observable, startWith } from 'rxjs';
+import { State } from 'src/app/store';
+import { getAllCities } from 'src/app/store/selectors/cities.selector';
 
 @Component({
   selector: 'app-modal',
@@ -8,11 +11,15 @@ import { map, Observable, startWith } from 'rxjs';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
+  constructor(private store: Store<State>) {}
+
   @Output() close = new EventEmitter<void>();
-  
+
   @Output() addCityEvent = new EventEmitter<string>();
 
-  myControl = new FormControl();
+  myControl = new FormControl('', [Validators.required]);
+
+  cities$!: Observable<string[]>;
 
   options: string[] = [
     'Minsk',
@@ -38,6 +45,8 @@ export class ModalComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value))
     );
+
+    this.cities$ = this.store.pipe(select(getAllCities));
   }
 
   private _filter(value: string): string[] {
@@ -48,15 +57,7 @@ export class ModalComponent implements OnInit {
     );
   }
 
-  addCityForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-  });
-
   onSubmit() {
     this.addCityEvent.emit(this.myControl.value);
   }
-
-  // close() {
-  //   this.close.emit();
-  // }
 }

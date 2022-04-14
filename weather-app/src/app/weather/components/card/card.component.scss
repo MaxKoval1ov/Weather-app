@@ -12,6 +12,7 @@
     display: flex;
     overflow: hidden;
     column-gap: 5px;
+    white-space: nowrap;
 }
 
 .card-content{
@@ -46,4 +47,6 @@
 
 .card-title{
     font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
 }

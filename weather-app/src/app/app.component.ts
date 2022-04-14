@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import {
   BehaviorSubject,
   concatMap,
@@ -14,6 +15,11 @@ import { WeatherCardInfo } from './models/card.model';
 import { ImageService } from './services/image.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { WeaterService } from './services/weather.service';
+import { State } from './store';
+import { loadCities } from './store/actions/cities.actions';
+import { goOnline } from './store/actions/config.actions';
+import { signIn } from './store/actions/user.actions';
+import { User } from './store/models/user.model';
 
 const developerImage = {
   urls: {
@@ -33,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private lss: LocalStorageService,
     private weatherService: WeaterService,
+    private store: Store<State>,
     private imageService: ImageService
   ) {
     this.cities = this.lss.getItem('cities');
@@ -114,6 +121,13 @@ export class AppComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
+    this.store.dispatch(loadCities({ cities: ['Minsk'] }));
+    this.store.dispatch(goOnline());
+    const user: User = {
+      name: 'Maksim',
+      surname: 'Kovaliov',
+    };
+    this.store.dispatch(signIn(user));
     this.reSub();
     this.keySub = this.handleEscape.subscribe();
     this.shouldReload = this.lss.getLoadingState();

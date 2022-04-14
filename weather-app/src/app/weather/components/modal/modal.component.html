@@ -1,7 +1,7 @@
 <div class="modal_background" (click)="close.emit()"></div>
 
 
-<form class="modal" [formGroup]="addCityForm" novalidate (ngSubmit)="onSubmit()">
+<form class="modal" novalidate (ngSubmit)="onSubmit()">
     <mat-card class="shipping-card">
         <mat-card-header class='modal-header'>
             <mat-card-title>Add city</mat-card-title>
@@ -23,9 +23,6 @@
                         {{option}}
                       </mat-option>
                     </mat-autocomplete>
-                        <!-- <input ngx-google-places-autocomplete
-                            (onAddressChange)="AddressChange($event)" />
-                        {{ formattedaddress }} -->
                     </mat-form-field>
                     <mat-error *ngIf="myControl.errors">
                         Wrong <strong>name</strong>
@@ -36,5 +33,8 @@
         <mat-card-actions class="model-btns-container">
             <button mat-raised-button color="primary" type="submit">Add</button>
         </mat-card-actions>
+        <mat-card-subtitle>
+            {{cities$ | async}}
+        </mat-card-subtitle>
     </mat-card>
 </form>

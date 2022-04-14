@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { reducers } from './store';
 import { UiModule } from './ui/ui.module';
 import { WeatherModule } from './weather/weather.module';
 
@@ -28,12 +29,12 @@ import { WeatherModule } from './weather/weather.module';
     AppRoutingModule,
     WeatherModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     UiModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
