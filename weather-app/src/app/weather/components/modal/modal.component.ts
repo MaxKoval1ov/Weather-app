@@ -9,6 +9,8 @@ import { map, Observable, startWith } from 'rxjs';
 })
 export class ModalComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
+  
+  @Output() addCityEvent = new EventEmitter<string>();
 
   myControl = new FormControl();
 
@@ -51,7 +53,7 @@ export class ModalComponent implements OnInit {
   });
 
   onSubmit() {
-    console.log(this.addCityForm.value.name);
+    this.addCityEvent.emit(this.myControl.value);
   }
 
   // close() {

@@ -1,34 +1,33 @@
 <mat-card class="card">
+    <mat-card-header class="card-header">
+        <fa-icon class="card-header-xmark" [icon]="xmark" (click) = "handleDelete(item.info.name)"></fa-icon>
+    </mat-card-header>
     <mat-card-title-group>
-        <mat-card-title>{{item.info.name}}</mat-card-title>
+        <mat-card-title class = "card-title">{{item.info.name}}</mat-card-title>
     </mat-card-title-group>
-    <mat-card-content class = "card-content" class="full-width">
-        <div class="row">
-            <div class="col">
-                <img mat-card-sm-image src={{item.image.urls.small}}>
-            </div>
-        </div>
+    <mat-card-content class="card-content" class="full-width">
+        <img class="card-image" src={{item.image.urls.small}}>
         <div class="card-stats">
-            <span class = 'card-stat'>
+            <div class='card-stat'>
                 <fa-icon [icon]="icon"></fa-icon>
                 {{item.info.weather[0].description}}
-            </span>
-            <!-- <span class = 'card-stat'>
-                <mat-icon>thumb_up</mat-icon>
-                {{item.likes}}
-            </span>
-            <span class = 'card-stat'>
-                <mat-icon>thumb_down</mat-icon>
-                {{item.dislikes}}
-            </span>
-            <span class = 'card-stat'>
-                <mat-icon>comments</mat-icon>
-                {{item.comments}}
-            </span> -->
-            
+            </div>
+            <div class='card-stat'>
+                <fa-icon [icon]="droplet" title="Humidity"></fa-icon>
+                {{item.info.main.humidity}}
+            </div>
+            <div class='card-stat'>
+                <fa-icon [icon]="temp" title="Temperature"></fa-icon>
+                {{item.info.main.temp}}
+            </div>
+            <div class='card-stat'>
+                <fa-icon [icon]="preassure" title="Preassure"></fa-icon>
+                {{item.info.main.pressure}}
+            </div>
+
         </div>
     </mat-card-content>
-    <mat-card-subtitle>
+    <!-- <mat-card-subtitle>
         Subs
     </mat-card-subtitle>
     <mat-card-footer class = "card-buttons">
@@ -38,5 +37,5 @@
         <button (click)="toggleLike()" mat-icon-button color= "{{ isLiked ? 'warn' : ''}}" aria-label="Example icon-button with a heart icon">
             <mat-icon>favorite</mat-icon>
           </button>
-    </mat-card-footer>
+    </mat-card-footer> -->
 </mat-card>

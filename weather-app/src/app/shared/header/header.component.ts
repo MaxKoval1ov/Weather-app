@@ -1,15 +1,28 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
+  isWorking = false;
 
   @Output() open = new EventEmitter<void>();
 
-  ngOnInit(): void {
+  @Output() stop = new EventEmitter<void>();
+
+  @Output() start = new EventEmitter<void>();
+
+  handleStop() {
+    console.log('stop');
+    this.isWorking = !this.isWorking;
+    this.stop.emit();
   }
 
+  handleStart() {
+    console.log('start');
+    this.isWorking = !this.isWorking;
+    this.start.emit();
+  }
 }

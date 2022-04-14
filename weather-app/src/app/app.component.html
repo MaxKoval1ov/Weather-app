@@ -1,11 +1,13 @@
 <app-header (open)="modal = true"></app-header>
-<app-modal *ngIf="modal" (close)="modal = false" [alreadyAdded]='cities'></app-modal>
+<app-modal (addCityEvent)="addCity($event)" *ngIf="modal" (close)="modal = false" [alreadyAdded]='cities'></app-modal>
 <main class = "main">
     <app-sort></app-sort>
     <div class="cards-container">
-        <ng-container *ngIf="cities">
-            <app-weather-card *ngFor="let city of cities$|async" [cardState]="city"></app-weather-card>
+        <ng-container *ngIf="cities.length != 0; else addCityTemp">
+            <app-weather-card (deleteEvent)="deleteCity($event)" *ngFor="let city of citiesInfo" [cardState]="city"></app-weather-card>
         </ng-container>
     </div>
 </main>
 <app-footer></app-footer>
+
+<ng-template #addCityTemp><strong>Add new City, please</strong></ng-template>

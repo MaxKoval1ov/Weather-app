@@ -10,9 +10,9 @@ export interface WeatherInfo {
   main: {
     temp: number;
     feels_like: number;
-    preasure: number;
+    pressure: number;
     humidity: number;
-  }[];
+  };
   wind: {
     speed: number;
   };

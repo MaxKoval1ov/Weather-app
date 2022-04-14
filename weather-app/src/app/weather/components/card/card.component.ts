@@ -1,10 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { WeatherCardInfo } from 'src/app/models/card.model';
 import {
   faSun,
   faCloudShowersWater,
   faCloud,
   faSnowboarding,
+  faDroplet,
+  faTemperature0,
+  faArrowUp,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -13,13 +17,27 @@ import {
   styleUrls: ['./card.component.scss'],
 })
 export class WeatherCard implements OnInit {
+  //icons
   icon = faSun;
+
+  droplet = faDroplet;
+
+  temp = faTemperature0;
+
+  preassure = faArrowUp;
+
+  xmark = faXmark;
+  //icons
 
   item!: WeatherCardInfo;
 
   ngOnInit(): void {}
 
-  isLiked = false;
+  @Output() deleteEvent = new EventEmitter<string>();
+
+  handleDelete(name: string) {
+    this.deleteEvent.emit(name);
+  }
 
   @Input()
   set cardState(value: WeatherCardInfo) {
@@ -46,12 +64,6 @@ export class WeatherCard implements OnInit {
           this.icon = faCloud;
         }
         break;
-      default: {
-      }
     }
-  }
-
-  toggleLike(): void {
-    this.isLiked = !this.isLiked;
   }
 }

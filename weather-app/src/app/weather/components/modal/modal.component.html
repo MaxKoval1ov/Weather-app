@@ -27,7 +27,7 @@
                             (onAddressChange)="AddressChange($event)" />
                         {{ formattedaddress }} -->
                     </mat-form-field>
-                    <mat-error *ngIf="addCityForm.controls['name'].errors">
+                    <mat-error *ngIf="myControl.errors">
                         Wrong <strong>name</strong>
                     </mat-error>
                 </div>
