@@ -36,7 +36,8 @@ export class WeatherCard implements OnInit {
   @Output() deleteEvent = new EventEmitter<string>();
 
   handleDelete(name: string) {
-    this.deleteEvent.emit(name);
+    if (confirm(`Do you really wand to delete ${name} from list?`))
+      this.deleteEvent.emit(name);
   }
 
   @Input()

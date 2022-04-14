@@ -14,7 +14,7 @@ export class WeaterService {
 
   constructor(private http: HttpClient) {}
 
-  getWeatherInfo(city: string, lang = 'en'): Observable<WeatherInfo> {
+  getWeatherInfo(city = 'Minsk', lang = 'en'): Observable<WeatherInfo> {
     return this.http.get<WeatherInfo>(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${lang}&appid=${this.apiKey}&units=metric`,
     );

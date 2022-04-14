@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { IImage } from '../models/image.model';
 
@@ -18,17 +18,4 @@ export class ImageService {
       `https://api.unsplash.com/photos/random?orientation=landscape&query=${name}&client_id=${this.apiKey}`
     );
   }
-
-  // getImageUrl(name: string): Observable<any> {
-  //   return new Observable().pipe(
-  //     // map(() => ({
-  //     //   urls: {
-  //     //     small: 'assets/default.png',
-  //     //     full: name,
-  //     //     regular: '',
-  //     //     raw: '',
-  //     //   },
-  //     // }))
-  //   );
-  // }
 }
