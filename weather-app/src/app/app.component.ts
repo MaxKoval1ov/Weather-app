@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   BehaviorSubject,
@@ -16,7 +16,6 @@ import { ImageService } from './services/image.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { WeaterService } from './services/weather.service';
 import { State } from './store';
-import { loadCities } from './store/actions/cities.actions';
 import { goOnline } from './store/actions/config.actions';
 import { signIn } from './store/actions/user.actions';
 import { User } from './store/models/user.model';
@@ -34,23 +33,27 @@ const developerImage = {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection:ChangeDetectionStrategy.OnPush
+
 })
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private lss: LocalStorageService,
     private weatherService: WeaterService,
     private store: Store<State>,
+    private cdr: ChangeDetectorRef,
     private imageService: ImageService
   ) {
     this.cities = this.lss.getItem('cities');
+    if (this.cities == null) {
+      this.lss.setItem('cities', []);
+      this.cities = [];
+    }
+    
+    this.shouldReload = this.lss.getLoadingState();
+    if (this.shouldReload) this.startReloading();
+    else this.lss.setLoadingFalse();
   }
-
-  // @HostListener('document:keydown', ['$event'])
-  // handleKeyboardEvent(event: KeyboardEvent) {
-  //   if (event.keyCode === 27 && this.modal) {
-  //     this.modal = false;
-  //   }
-  // }
 
   modal = false;
 
@@ -121,19 +124,16 @@ export class AppComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    this.store.dispatch(loadCities({ cities: ['Minsk'] }));
+    // this.store.dispatch(loadCities({ cities: ['Minsk'] }));
     this.store.dispatch(goOnline());
     const user: User = {
       name: 'Maksim',
       surname: 'Kovaliov',
     };
+
     this.store.dispatch(signIn(user));
     this.reSub();
     this.keySub = this.handleEscape.subscribe();
-    this.shouldReload = this.lss.getLoadingState();
-    console.log(this.shouldReload);
-    if (this.shouldReload) this.startReloading();
-    else this.lss.setLoadingFalse();
   }
 
   ngOnDestroy(): void {
@@ -146,18 +146,17 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription = this.cities$.subscribe((val) => {
       console.log(val);
       this.citiesInfo = val;
+      this.cdr.detectChanges();
     });
   }
 
   addCity(name: string): void {
-    console.log('Add city');
     this.cities = [...this.cities, name];
     this.lss.setItem('cities', this.cities);
     this.reSub();
   }
 
   deleteCity(name: string): void {
-    console.log('Delete city');
     this.cities = this.cities.filter((el) => el != name);
     this.lss.setItem('cities', this.cities);
     this.reSub();
@@ -172,8 +171,8 @@ export class AppComponent implements OnInit, OnDestroy {
   startReloading() {
     this.shouldReload = true;
     this.lss.setLoadignTrue();
-    this.intervalSub = this.citiesInerval$.subscribe((val) => {
-      console.log(val);
+    this.intervalSub = this.citiesInerval$.subscribe(() => {
+      this.cdr.detectChanges();
     });
   }
 }

@@ -1,17 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import { map, Observable, startWith } from 'rxjs';
-import { State } from 'src/app/store';
-import { getAllCities } from 'src/app/store/selectors/cities.selector';
+import { map, startWith, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalComponent implements OnInit {
-  constructor(private store: Store<State>) {}
+export class ModalComponent implements OnInit, OnDestroy {
 
   @Output() close = new EventEmitter<void>();
 
@@ -19,7 +16,12 @@ export class ModalComponent implements OnInit {
 
   myControl = new FormControl('', [Validators.required]);
 
-  cities$!: Observable<string[]>;
+  private subscription = Subscription.EMPTY;
+
+  onInputChange = this.myControl.valueChanges.pipe(
+    startWith(''),
+    map((value) => (this.avilibleOptions = this._filter(value)))
+  );
 
   options: string[] = [
     'Minsk',
@@ -27,26 +29,25 @@ export class ModalComponent implements OnInit {
     'New York',
     'Brest',
     'Mogilev',
-    'Kiev',
-    'Grodno',
+    'Kyiv',
+    'Hrodna',
     'Gomel',
   ];
 
   @Input() alreadyAdded: string[] = [];
 
-  filteredOptions!: Observable<string[]>;
+  avilibleOptions!: string[];
 
   ngOnInit() {
     this.options = this.options.filter(
       (val) => !this.alreadyAdded.includes(val)
     );
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value))
-    );
+    this.subscription = this.onInputChange.subscribe();
+  }
 
-    this.cities$ = this.store.pipe(select(getAllCities));
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private _filter(value: string): string[] {
@@ -58,6 +59,11 @@ export class ModalComponent implements OnInit {
   }
 
   onSubmit() {
-    this.addCityEvent.emit(this.myControl.value);
+    const name = this.myControl.value;
+    if (this.options.includes(name)) {
+      this.options = this.options.filter((val) => val != name);
+      this.myControl.setValue('');
+      this.addCityEvent.emit(name);
+    }
   }
 }

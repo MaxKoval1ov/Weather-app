@@ -1,10 +1,12 @@
 .main{
-    margin-top: 11vh;
-    height: 79vh;
+    padding-top: 11vh;
+    padding-bottom: 11vh;
 }
 
 .cards-container{
     display: flex;
     justify-content: center;
     column-gap: 5vw;
+    row-gap: 5vh;
+    flex-wrap: wrap;
 }

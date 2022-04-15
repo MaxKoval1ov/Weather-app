@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { WeatherCardInfo } from 'src/app/models/card.model';
 import {
   faSun,
@@ -15,6 +15,7 @@ import {
   selector: 'app-weather-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class WeatherCard implements OnInit {
   //icons

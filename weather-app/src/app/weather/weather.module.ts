@@ -6,17 +6,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UiModule } from '../ui/ui.module';
 import { WeatherCard } from './components/card/card.component';
 import { ModalComponent } from './components/modal/modal.component';
-import { SortComponent } from './components/sort/sort.component';
 import { WeatherComponent } from './components/weather/weather.component';
 
 @NgModule({
-  declarations: [ModalComponent, SortComponent, WeatherCard, WeatherComponent],
-  imports: [
-    CommonModule,
-    UiModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
-  ],
-  exports: [ModalComponent, SortComponent, WeatherCard],
+  declarations: [ModalComponent, WeatherCard, WeatherComponent],
+  imports: [CommonModule, UiModule, ReactiveFormsModule, FontAwesomeModule],
+  exports: [ModalComponent, WeatherCard],
 })
 export class WeatherModule {}

@@ -12,17 +12,13 @@
                 <div class="col">
                     <mat-form-field class="full-width">
                         <mat-label>City</mat-label>
-                    <input type="text"
-                           placeholder="City"
-                           aria-label="City"
-                           matInput
-                           [formControl]="myControl"
-                           [matAutocomplete]="auto">
-                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                        {{option}}
-                      </mat-option>
-                    </mat-autocomplete>
+                        <input type="text" placeholder="City" aria-label="City" matInput [formControl]="myControl"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of avilibleOptions" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                     <mat-error *ngIf="myControl.errors">
                         Wrong <strong>name</strong>
@@ -33,8 +29,5 @@
         <mat-card-actions class="model-btns-container">
             <button mat-raised-button color="primary" type="submit">Add</button>
         </mat-card-actions>
-        <mat-card-subtitle>
-            {{cities$ | async}}
-        </mat-card-subtitle>
     </mat-card>
 </form>

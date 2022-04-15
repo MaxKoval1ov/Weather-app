@@ -1,9 +1,9 @@
 <app-header (start)="startReloading()" (stop)="stopReloading()" [isWorking]="shouldReload" (open)="modal = true"></app-header>
 <app-modal (addCityEvent)="addCity($event)" *ngIf="modal" (close)="modal = false" [alreadyAdded]='cities'></app-modal>
 <main class = "main">
-    <app-sort></app-sort>
+    <!-- <app-sort></app-sort> -->
     <div class="cards-container">
-        <ng-container *ngIf="cities; else addCityTemp">
+        <ng-container *ngIf="cities && cities.length != 0  ; else addCityTemp">
             <app-weather-card (deleteEvent)="deleteCity($event)" *ngFor="let city of citiesInfo" [cardState]="city"></app-weather-card>
         </ng-container>
     </div>
