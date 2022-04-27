@@ -1,24 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import {
-  BehaviorSubject,
-  concatMap,
-  from,
-  fromEvent,
-  interval,
-  map,
-  Subscription,
-  toArray,
-} from 'rxjs';
+import { BehaviorSubject, concatMap, from, fromEvent, interval, map, Observable, Subscription, toArray } from 'rxjs';
 
 import { WeatherCardInfo } from './models/card.model';
-import { ImageService } from './services/image.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { WeaterService } from './services/weather.service';
-import { State } from './store';
-import { goOnline } from './store/actions/config.actions';
-import { signIn } from './store/actions/user.actions';
-import { User } from './store/models/user.model';
 
 const developerImage = {
   urls: {
@@ -33,26 +18,49 @@ const developerImage = {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection:ChangeDetectionStrategy.OnPush
-
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private lss: LocalStorageService,
     private weatherService: WeaterService,
-    private store: Store<State>,
-    private cdr: ChangeDetectorRef,
-    private imageService: ImageService
+    private cdr: ChangeDetectorRef
   ) {
     this.cities = this.lss.getItem('cities');
     if (this.cities == null) {
       this.lss.setItem('cities', []);
       this.cities = [];
     }
-    
+
     this.shouldReload = this.lss.getLoadingState();
     if (this.shouldReload) this.startReloading();
     else this.lss.setLoadingFalse();
+
+    this.newNameSub = new BehaviorSubject<string[]>(this.cities);
+
+    this.cities$ = this.newNameSub.pipe(
+      concatMap((val: string[]) =>
+        from(val).pipe(
+          concatMap((name: string) =>
+            this.weatherService.getWeatherInfo(name).pipe(
+              map((value) => {
+                console.log(value);
+                return { info: value, image: developerImage };
+              })
+            )
+          ),
+          toArray()
+        )
+      )
+    );
+
+    this.citiesInterva$ = interval(3000).pipe(
+      map(() => {
+        this.newNameSub.next(this.cities);
+      })
+    );
+
+    console.log(this.cities);
   }
 
   modal = false;
@@ -69,25 +77,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private keySub = Subscription.EMPTY;
 
-  // cities$ = interval(2000).pipe(
-  //   map(() => this.lss.getItem('cities')),
-  //   concatMap((val) =>
-  //     from(val).pipe(
-  //       concatMap((city) =>
-  //         this.weatherService
-  //           .getWeatherInfo(city)
-  //           .pipe(
-  //             concatMap((info) =>
-  //               this.imageService
-  //                 .getImageUrl(city)
-  //                 .pipe(map((image) => ({ info, image })))
-  //             )
-  //           )
-  //       ),
-  //       toArray()
-  //     )
-  //   )
-  // );
+  cities$ = new Observable<any>();
+
+  newNameSub: BehaviorSubject<string[]>;
+
+  citiesInterva$ = new Observable<any>();
+
 
   handleEscape = fromEvent<KeyboardEvent>(document, 'keydown').pipe(
     map((event) => {
@@ -95,45 +90,9 @@ export class AppComponent implements OnInit, OnDestroy {
     })
   );
 
-  cities$ = new BehaviorSubject<string[]>([]).pipe(
-    map(() => this.lss.getItem('cities')),
-    concatMap((val: string[]) =>
-      from(val).pipe(
-        concatMap((name: string) =>
-          this.weatherService
-            .getWeatherInfo(name)
-            .pipe(map((value) => ({ info: value, image: developerImage })))
-        ),
-        toArray()
-      )
-    )
-  );
-
-  citiesInerval$ = interval(2000).pipe(
-    map(() => this.lss.getItem('cities')),
-    concatMap((val: string[]) =>
-      from(val).pipe(
-        concatMap((name: string) =>
-          this.weatherService
-            .getWeatherInfo(name)
-            .pipe(map((value) => ({ info: value, image: developerImage })))
-        ),
-        toArray()
-      )
-    )
-  );
-
   ngOnInit(): void {
-    // this.store.dispatch(loadCities({ cities: ['Minsk'] }));
-    this.store.dispatch(goOnline());
-    const user: User = {
-      name: 'Maksim',
-      surname: 'Kovaliov',
-    };
-
-    this.store.dispatch(signIn(user));
-    this.reSub();
     this.keySub = this.handleEscape.subscribe();
+    this.newNameSub.next(this.cities);
   }
 
   ngOnDestroy(): void {
@@ -151,15 +110,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   addCity(name: string): void {
+    console.log(name, 'added');
     this.cities = [...this.cities, name];
     this.lss.setItem('cities', this.cities);
-    this.reSub();
+    this.newNameSub.next(this.cities);
   }
 
   deleteCity(name: string): void {
     this.cities = this.cities.filter((el) => el != name);
     this.lss.setItem('cities', this.cities);
-    this.reSub();
+    this.newNameSub.next(this.cities);
   }
 
   stopReloading() {
@@ -171,7 +131,7 @@ export class AppComponent implements OnInit, OnDestroy {
   startReloading() {
     this.shouldReload = true;
     this.lss.setLoadignTrue();
-    this.intervalSub = this.citiesInerval$.subscribe(() => {
+    this.intervalSub = this.citiesInterva$.subscribe(() => {
       this.cdr.detectChanges();
     });
   }

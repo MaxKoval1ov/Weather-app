@@ -4,7 +4,7 @@
     <!-- <app-sort></app-sort> -->
     <div class="cards-container">
         <ng-container *ngIf="cities && cities.length != 0  ; else addCityTemp">
-            <app-weather-card (deleteEvent)="deleteCity($event)" *ngFor="let city of citiesInfo" [cardState]="city"></app-weather-card>
+            <app-weather-card (deleteEvent)="deleteCity($event)" *ngFor="let city of cities$ | async" [cardState]="city"></app-weather-card>
         </ng-container>
     </div>
 </main>
